@@ -26,6 +26,7 @@ var allProductImagesArray = [];
 //total clicks, for when they pick 25 times it makes a graph
 var clickCounter = 0;
 
+
 //=======Construction function======//
 //build the object: needs to contain the following info
   //image source
@@ -48,56 +49,35 @@ var ProductImageConstructor = function (source, name) {
 //so what it is doing is that it  runs through left, and updates left, moves on the middle updates middle and then moves on to right. I lost the prev left and middle because it got reassigned by the time it makes it to right
 //maybe try it in on
 //if have time maybe i could turn this into a for loop to cut out some code
-var randomNumberLeft = function () {
-  do {
-    var randomNumberL = Math.floor(Math.random() * allProductImagesArray.length);
-
-    console.log('LEFT random number function ' + randomNumberL);
-    console.log('LEFT productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('LEFT productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('LEFT productRightImageArrayIndex ' + productRightImageArrayIndex);
-    
-  } while (randomNumberL === productLeftImageArrayIndex || randomNumberL === productMiddleImageArrayIndex || randomNumberL === productRightImageArrayIndex);
-
-  return randomNumberL;
-};
-
-var randomNumberMiddle = function () {
-  do {
-    var randomNumberM = Math.floor(Math.random() * allProductImagesArray.length);
-
-    console.log('MIDDLE random number function ' + randomNumberM);
-    console.log('MIDDLE productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('MIDDLE productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('MIDDLE productRightImageArrayIndex ' + productRightImageArrayIndex);
-
-  } while (randomNumberM === productLeftImageArrayIndex || randomNumberM === productMiddleImageArrayIndex || randomNumberM === productRightImageArrayIndex);
-
-  return randomNumberM;
-};
-
-var randomNumberRight = function () {
-  do {
-    var randomNumberR = Math.floor(Math.random() * allProductImagesArray.length);
-
-    console.log('RIGHT random number function ' + randomNumberR);
-    console.log('RIGHT productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('RIGHT productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('RIGHT productRightImageArrayIndex ' + productRightImageArrayIndex);
-
-  } while (randomNumberR === productLeftImageArrayIndex || randomNumberR === productMiddleImageArrayIndex || randomNumberR === productRightImageArrayIndex);
-
-  return randomNumberR;
-};
-
-// var randomImageMaker = function () {
+// var randomNumberLeft = function () {
 //   do {
-//     var randomNumberLeft = Math.floor(Math.random() * allProductImagesArray.length);
-//     var randomNumberMiddle = Math.floor(Math.random() * allProductImagesArray.length);
-//     var randomNumberRight = Math.floor(Math.random() * allProductImagesArray.length);
-//     return (randomNumberLeft, randomNumberMiddle, randomNumberRight);
-//   } while (randomNumberRight === productLeftImageArrayIndex || randomNumberRight === productMiddleImageArrayIndex || randomNumberRight === productRightImageArrayIndex || randomNumberLeft === productLeftImageArrayIndex || randomNumberLeft === productMiddleImageArrayIndex || randomNumberLeft === productRightImageArrayIndex || randomNumberMiddle === productLeftImageArrayIndex || randomNumberMiddle === productMiddleImageArrayIndex || randomNumberMiddle === productRightImageArrayIndex);
+//     var randomNumberL = Math.floor(Math.random() * allProductImagesArray.length);
+//   } while (randomNumberL === productLeftImageArrayIndex || randomNumberL === productMiddleImageArrayIndex || randomNumberL === productRightImageArrayIndex);
+
+//   return randomNumberL;
 // };
+
+// var randomNumberMiddle = function () {
+//   do {
+//     var randomNumberM = Math.floor(Math.random() * allProductImagesArray.length);
+//   } while (randomNumberM === productLeftImageArrayIndex || randomNumberM === productMiddleImageArrayIndex || randomNumberM === productRightImageArrayIndex);
+
+//   return randomNumberM;
+// };
+
+// var randomNumberRight = function () {
+//   do {
+//     var randomNumberR = Math.floor(Math.random() * allProductImagesArray.length);
+//   } while (randomNumberR === productLeftImageArrayIndex || randomNumberR === productMiddleImageArrayIndex || randomNumberR === productRightImageArrayIndex);
+
+//   return randomNumberR;
+// };
+
+var randomIndexNumber = function () {
+  var number = Math.floor(Math.random() * allProductImagesArray.length);
+  return number;
+};
+
 
 
 //handler function
@@ -123,9 +103,62 @@ var productClickHandler = function (event) {
     allProductImagesArray[productMiddleImageArrayIndex].appeared++;
     allProductImagesArray[productRightImageArrayIndex].appeared++;
 
-    productLeftImageArrayIndex = randomNumberLeft();
-    productMiddleImageArrayIndex = randomNumberMiddle();
-    productRightImageArrayIndex = randomNumberRight();
+    // var maybeLeft = randomNumberLeft();
+    // var maybeMiddle = randomNumberMiddle();
+    // var maybeRight = randomNumberRight();
+    // console.log('maybe left ' + maybeLeft);
+    // console.log('maybe middle ' + maybeMiddle);
+    // console.log('maybe right ' + maybeRight);
+    // console.log('productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    // console.log('productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    // console.log('productRightImageArrayIndex ' + productRightImageArrayIndex);
+    console.log('BEFORE RANDOM productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('BEFORE RANDOM productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('BEFORE RANDOM productRightImageArrayIndex ' + productRightImageArrayIndex);
+    do {
+      var maybeLeft = randomIndexNumber();
+    } while (maybeLeft === productLeftImageArrayIndex || maybeLeft === productMiddleImageArrayIndex || maybeLeft === productRightImageArrayIndex);
+
+    do {
+      var maybeMiddle = randomIndexNumber();
+    } while (maybeMiddle === maybeLeft || maybeMiddle === productLeftImageArrayIndex || maybeMiddle === productRightImageArrayIndex || maybeMiddle === productMiddleImageArrayIndex);
+
+    do {
+      var maybeRight = randomIndexNumber();
+    } while (maybeRight === maybeLeft || maybeRight === maybeMiddle || maybeRight === productLeftImageArrayIndex || maybeRight === productMiddleImageArrayIndex || maybeRight === productRightImageArrayIndex);
+
+    console.log('maybe left ' + maybeLeft);
+    console.log('maybe middle ' + maybeMiddle);
+    console.log('maybe right ' + maybeRight);
+    console.log('BEFORE productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('BEFORE productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('BEFORE productRightImageArrayIndex ' + productRightImageArrayIndex);
+
+    productLeftImageArrayIndex = maybeLeft;
+    productMiddleImageArrayIndex = maybeMiddle;
+    productRightImageArrayIndex = maybeRight;
+
+    // console.log('AFTER maybe left ' + maybeLeft);
+    // console.log('AFTER maybe middle ' + maybeMiddle);
+    // console.log('AFTER maybe right ' + maybeRight);
+    console.log('AFTER productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('AFTER productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('AFTER productRightImageArrayIndex ' + productRightImageArrayIndex);
+   
+    // () {
+    //   productLeftImageArrayIndex = maybeLeft;
+    
+    // (maybeMiddle !== productLeftImageArrayIndex || maybeMiddle !== productMiddleImageArrayIndex || maybeMiddle !== productRightImageArrayIndex || maybeMiddle !== maybeLeft) {
+    //   productMiddleImageArrayIndex = maybeMiddle;
+    // }
+    // (maybeRight !== productLeftImageArrayIndex || maybeRight !== productMiddleImageArrayIndex || maybeRight !== productRightImageArrayIndex || maybeRight !== maybeLeft || maybeRight !== maybeMiddle) {
+    //   productRightImageArrayIndex = maybeRight;
+    // }
+
+
+    // productLeftImageArrayIndex = randomNumberLeft();
+    // productMiddleImageArrayIndex = randomNumberMiddle();
+    // productRightImageArrayIndex = randomNumberRight();
 
     productLeftImage.src = allProductImagesArray[productLeftImageArrayIndex].src;
     productMiddleImage.src = allProductImagesArray[productMiddleImageArrayIndex].src;
