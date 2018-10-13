@@ -45,34 +45,6 @@ var ProductImageConstructor = function (source, name) {
 //=======Functions======//
 
 //choose a random image, that isn't one of the other 3 and wasn't just on screen before
-//it isn't checking the previous image on the screen, i get duplicates
-//so what it is doing is that it  runs through left, and updates left, moves on the middle updates middle and then moves on to right. I lost the prev left and middle because it got reassigned by the time it makes it to right
-//maybe try it in on
-//if have time maybe i could turn this into a for loop to cut out some code
-// var randomNumberLeft = function () {
-//   do {
-//     var randomNumberL = Math.floor(Math.random() * allProductImagesArray.length);
-//   } while (randomNumberL === productLeftImageArrayIndex || randomNumberL === productMiddleImageArrayIndex || randomNumberL === productRightImageArrayIndex);
-
-//   return randomNumberL;
-// };
-
-// var randomNumberMiddle = function () {
-//   do {
-//     var randomNumberM = Math.floor(Math.random() * allProductImagesArray.length);
-//   } while (randomNumberM === productLeftImageArrayIndex || randomNumberM === productMiddleImageArrayIndex || randomNumberM === productRightImageArrayIndex);
-
-//   return randomNumberM;
-// };
-
-// var randomNumberRight = function () {
-//   do {
-//     var randomNumberR = Math.floor(Math.random() * allProductImagesArray.length);
-//   } while (randomNumberR === productLeftImageArrayIndex || randomNumberR === productMiddleImageArrayIndex || randomNumberR === productRightImageArrayIndex);
-
-//   return randomNumberR;
-// };
-
 var randomIndexNumber = function () {
   var number = Math.floor(Math.random() * allProductImagesArray.length);
   return number;
@@ -103,18 +75,6 @@ var productClickHandler = function (event) {
     allProductImagesArray[productMiddleImageArrayIndex].appeared++;
     allProductImagesArray[productRightImageArrayIndex].appeared++;
 
-    // var maybeLeft = randomNumberLeft();
-    // var maybeMiddle = randomNumberMiddle();
-    // var maybeRight = randomNumberRight();
-    // console.log('maybe left ' + maybeLeft);
-    // console.log('maybe middle ' + maybeMiddle);
-    // console.log('maybe right ' + maybeRight);
-    // console.log('productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    // console.log('productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    // console.log('productRightImageArrayIndex ' + productRightImageArrayIndex);
-    console.log('BEFORE RANDOM productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('BEFORE RANDOM productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('BEFORE RANDOM productRightImageArrayIndex ' + productRightImageArrayIndex);
     do {
       var maybeLeft = randomIndexNumber();
     } while (maybeLeft === productLeftImageArrayIndex || maybeLeft === productMiddleImageArrayIndex || maybeLeft === productRightImageArrayIndex);
@@ -127,54 +87,17 @@ var productClickHandler = function (event) {
       var maybeRight = randomIndexNumber();
     } while (maybeRight === maybeLeft || maybeRight === maybeMiddle || maybeRight === productLeftImageArrayIndex || maybeRight === productMiddleImageArrayIndex || maybeRight === productRightImageArrayIndex);
 
-    console.log('maybe left ' + maybeLeft);
-    console.log('maybe middle ' + maybeMiddle);
-    console.log('maybe right ' + maybeRight);
-    console.log('BEFORE productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('BEFORE productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('BEFORE productRightImageArrayIndex ' + productRightImageArrayIndex);
-
     productLeftImageArrayIndex = maybeLeft;
     productMiddleImageArrayIndex = maybeMiddle;
     productRightImageArrayIndex = maybeRight;
-
-    // console.log('AFTER maybe left ' + maybeLeft);
-    // console.log('AFTER maybe middle ' + maybeMiddle);
-    // console.log('AFTER maybe right ' + maybeRight);
-    console.log('AFTER productLeftImageArrayIndex ' + productLeftImageArrayIndex);
-    console.log('AFTER productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
-    console.log('AFTER productRightImageArrayIndex ' + productRightImageArrayIndex);
-   
-    // () {
-    //   productLeftImageArrayIndex = maybeLeft;
-    
-    // (maybeMiddle !== productLeftImageArrayIndex || maybeMiddle !== productMiddleImageArrayIndex || maybeMiddle !== productRightImageArrayIndex || maybeMiddle !== maybeLeft) {
-    //   productMiddleImageArrayIndex = maybeMiddle;
-    // }
-    // (maybeRight !== productLeftImageArrayIndex || maybeRight !== productMiddleImageArrayIndex || maybeRight !== productRightImageArrayIndex || maybeRight !== maybeLeft || maybeRight !== maybeMiddle) {
-    //   productRightImageArrayIndex = maybeRight;
-    // }
-
-
-    // productLeftImageArrayIndex = randomNumberLeft();
-    // productMiddleImageArrayIndex = randomNumberMiddle();
-    // productRightImageArrayIndex = randomNumberRight();
 
     productLeftImage.src = allProductImagesArray[productLeftImageArrayIndex].src;
     productMiddleImage.src = allProductImagesArray[productMiddleImageArrayIndex].src;
     productRightImage.src = allProductImagesArray[productRightImageArrayIndex].src;
 
-    productMiddleImage.name = allProductImagesArray[productLeftImageArrayIndex].name;
-    productMiddleImage.name = allProductImagesArray[productMiddleImageArrayIndex].name;
-    productRightImage.name = allProductImagesArray[productRightImageArrayIndex].name;
-
-    //need to figure out how to get name to print to screen
-    //this doesn't work
-    //in theory it should be from when I assign the .name but it wasn't tied to the ID on the HTML page
-    // productLeftDescription = productLeftImage.name;
-    // productMiddleDescription = productMiddleImage.name;
-    // productRightDescription = productRightImage.name;
-
+    productLeftDescription.textContent = allProductImagesArray[productLeftImageArrayIndex].name;
+    productMiddleDescription.textContent = allProductImagesArray[productMiddleImageArrayIndex].name;
+    productRightDescription.textContent = allProductImagesArray[productRightImageArrayIndex].name;
   }
 };
 
