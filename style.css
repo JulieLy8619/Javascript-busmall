@@ -1,0 +1,31 @@
+/*
+Ideas for styling: 
+  I want a gradiant background (body)
+    Blue to Orange
+  I want a border on the images
+*/
+
+html {
+  width: 960px;
+}
+
+section {
+  width: 960px;
+  height: 500px;
+}
+
+/* main section ul li {
+  float: left;
+  list-style: none;
+  margin: 3px;
+} */
+
+div {
+  float: left;
+  margin: 30px;
+}
+
+img {
+  width: 250px;
+  height: 250px; 
+}
