@@ -26,6 +26,7 @@ var allProductImagesArray = [];
 //total clicks, for when they pick 25 times it makes a graph
 var clickCounter = 0;
 
+var ctx = document.getElementById('productChart').getContext('2d');
 
 //=======Construction function======//
 //build the object: needs to contain the following info
@@ -49,10 +50,9 @@ var randomColor = function () {
   var r = Math.floor(Math.random() * 250);
   var g = Math.floor(Math.random() * 250);
   var b = Math.floor(Math.random() * 250);
-  console.log(r + ',' + g + ',' + b);
-  return (r + ',' + g + ',' + b);
+  return ('rgba(' + r + ',' + g + ',' + b + ')');
 };
-randomColor();
+//console.log(randomColor());
 
 //handler function
 var productClickHandler = function (event) {
@@ -96,21 +96,27 @@ var productClickHandler = function (event) {
     clickCounter++;
     //console.log('click counter ' + clickCounter);
     if (clickCounter === 25) {
+      //we;re supposed to make a chart now, not a list
+      renderChart();
       imageSection.removeEventListener('click', productClickHandler);
 
-      var productListContainer = document.getElementById('listcontainer');
-      var h2El = document.createElement('h2');
-      h2El.textContent = ('Summary of Survery for YOUR selections');
-      productListContainer.appendChild(h2El);
 
-      var ulEl = document.createElement('ul');
-      for (var i = 0; i < allProductImagesArray.length; i++) {
-        var liEl  = document.createElement('li');
-        liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
-        ulEl.appendChild(liEl);
 
-      }
-      productListContainer.appendChild(ulEl);
+      // imageSection.removeEventListener('click', productClickHandler);
+
+      // var productListContainer = document.getElementById('listcontainer');
+      // var h2El = document.createElement('h2');
+      // h2El.textContent = ('Summary of Survery for YOUR selections');
+      // productListContainer.appendChild(h2El);
+
+      // var ulEl = document.createElement('ul');
+      // for (var i = 0; i < allProductImagesArray.length; i++) {
+      //   var liEl  = document.createElement('li');
+      //   liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
+      //   ulEl.appendChild(liEl);
+
+      // }
+      // productListContainer.appendChild(ulEl);
     }
   }
 };
@@ -144,17 +150,57 @@ new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 imageSection.addEventListener('click', productClickHandler);
 
 //populating chart
-var ctx = document.getElementById('productChart').getContext('2d');
+
+
 
 var renderChart = function () {
   var productNamesArray = [];
-  var productLikesArray = [];
+  var productLikesArray = []; //this is also known as the dataset
   var chartColors = [];
-
+  var borderColorsArray = [];
+  
   for (var j = 0; j <allProductImagesArray.length; j++) {
     productNamesArray.push(allProductImagesArray[j].name);
     productLikesArray.push(allProductImagesArray[j].likes);
-    color.push(randomColor());
+    chartColors.push(randomColor());
+    borderColorsArray.push(randomColor());
   }
 
-}
+  var chartData = {
+    labels: productNamesArray,
+    datasets: [
+      {
+        label: 'NUmber of Votes',
+        data: productLikesArray,
+        backgroundColor: chartColors,
+        borderColor: borderColorsArray,
+        borderWidth: 1
+      }
+    ]
+  };
+
+  var chartOptions = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }]
+    },
+    animation: {
+      duration: 800,
+      easing: 'easeInCirc',
+    },
+    responsive: true,
+  };
+
+  var barChart = {
+    type: 'bar',
+    data: chartData,
+    options: chartOptions,
+  };
+  var productChart = new Chart(ctx,barChart);
+};
+
+
+
