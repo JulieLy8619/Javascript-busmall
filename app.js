@@ -45,27 +45,59 @@ var ProductImageConstructor = function (source, name) {
 
 //choose a random image, that isn't one of the other 3 and wasn't just on screen before
 //it isn't checking the previous image on the screen, i get duplicates
+//so what it is doing is that it  runs through left, and updates left, moves on the middle updates middle and then moves on to right. I lost the prev left and middle because it got reassigned by the time it makes it to right
+//maybe try it in on
 //if have time maybe i could turn this into a for loop to cut out some code
 var randomNumberLeft = function () {
   do {
-    var randomNumberLeft = Math.floor(Math.random() * allProductImagesArray.length);
-    return randomNumberLeft;
-  } while (randomNumberLeft === productLeftImageArrayIndex || randomNumberLeft === productMiddleImageArrayIndex || randomNumberLeft === productRightImageArrayIndex);
+    var randomNumberL = Math.floor(Math.random() * allProductImagesArray.length);
+
+    console.log('LEFT random number function ' + randomNumberL);
+    console.log('LEFT productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('LEFT productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('LEFT productRightImageArrayIndex ' + productRightImageArrayIndex);
+    
+  } while (randomNumberL === productLeftImageArrayIndex || randomNumberL === productMiddleImageArrayIndex || randomNumberL === productRightImageArrayIndex);
+
+  return randomNumberL;
 };
 
 var randomNumberMiddle = function () {
   do {
-    var randomNumberMiddle = Math.floor(Math.random() * allProductImagesArray.length);
-    return randomNumberMiddle;
-  } while (randomNumberMiddle === productLeftImageArrayIndex || randomNumberMiddle === productMiddleImageArrayIndex || randomNumberMiddle === productRightImageArrayIndex);
+    var randomNumberM = Math.floor(Math.random() * allProductImagesArray.length);
+
+    console.log('MIDDLE random number function ' + randomNumberM);
+    console.log('MIDDLE productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('MIDDLE productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('MIDDLE productRightImageArrayIndex ' + productRightImageArrayIndex);
+
+  } while (randomNumberM === productLeftImageArrayIndex || randomNumberM === productMiddleImageArrayIndex || randomNumberM === productRightImageArrayIndex);
+
+  return randomNumberM;
 };
 
 var randomNumberRight = function () {
   do {
-    var randomNumberRight = Math.floor(Math.random() * allProductImagesArray.length);
-    return randomNumberRight;
-  } while (randomNumberRight === productLeftImageArrayIndex || randomNumberRight === productMiddleImageArrayIndex || randomNumberRight === productRightImageArrayIndex);
+    var randomNumberR = Math.floor(Math.random() * allProductImagesArray.length);
+
+    console.log('RIGHT random number function ' + randomNumberR);
+    console.log('RIGHT productLeftImageArrayIndex ' + productLeftImageArrayIndex);
+    console.log('RIGHT productMiddleImageArrayIndex ' + productMiddleImageArrayIndex);
+    console.log('RIGHT productRightImageArrayIndex ' + productRightImageArrayIndex);
+
+  } while (randomNumberR === productLeftImageArrayIndex || randomNumberR === productMiddleImageArrayIndex || randomNumberR === productRightImageArrayIndex);
+
+  return randomNumberR;
 };
+
+// var randomImageMaker = function () {
+//   do {
+//     var randomNumberLeft = Math.floor(Math.random() * allProductImagesArray.length);
+//     var randomNumberMiddle = Math.floor(Math.random() * allProductImagesArray.length);
+//     var randomNumberRight = Math.floor(Math.random() * allProductImagesArray.length);
+//     return (randomNumberLeft, randomNumberMiddle, randomNumberRight);
+//   } while (randomNumberRight === productLeftImageArrayIndex || randomNumberRight === productMiddleImageArrayIndex || randomNumberRight === productRightImageArrayIndex || randomNumberLeft === productLeftImageArrayIndex || randomNumberLeft === productMiddleImageArrayIndex || randomNumberLeft === productRightImageArrayIndex || randomNumberMiddle === productLeftImageArrayIndex || randomNumberMiddle === productMiddleImageArrayIndex || randomNumberMiddle === productRightImageArrayIndex);
+// };
 
 
 //handler function
@@ -99,7 +131,7 @@ var productClickHandler = function (event) {
     productMiddleImage.src = allProductImagesArray[productMiddleImageArrayIndex].src;
     productRightImage.src = allProductImagesArray[productRightImageArrayIndex].src;
 
-    productLeftImage.name = allProductImagesArray[productLeftImageArrayIndex].name;
+    productMiddleImage.name = allProductImagesArray[productLeftImageArrayIndex].name;
     productMiddleImage.name = allProductImagesArray[productMiddleImageArrayIndex].name;
     productRightImage.name = allProductImagesArray[productRightImageArrayIndex].name;
 
@@ -115,6 +147,7 @@ var productClickHandler = function (event) {
 
 //create the objects
 //if i can get the name then I can figure out why/which image doesn't work, i don't think i see sweep or usb
+//it was .gif and .png, that is why those two didn't show
 new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
 new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
 new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
@@ -129,10 +162,10 @@ new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
 new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
 new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
 new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
-new ProductImageConstructor ('./images/sweep.jpg', 'Baby Onsie Mop');
+new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
 new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
 new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
-new ProductImageConstructor ('./images/usb.jpg', 'USB Tenticle');
+new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
 new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
 new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 
