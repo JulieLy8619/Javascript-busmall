@@ -44,6 +44,7 @@ var ProductImageConstructor = function (source, name) {
 //=======Functions======//
 
 //choose a random image, that isn't one of the other 3 and wasn't just on screen before
+//it isn't checking the previous image on the screen, i get duplicates
 //if have time maybe i could turn this into a for loop to cut out some code
 var randomNumberLeft = function () {
   do {
@@ -77,9 +78,6 @@ var randomNumberRight = function () {
   //for lab 11, make a list render
   //for lab 12,  add count to render chart and stop listener
 var productClickHandler = function (event) {
-  // console.log(event);
-  // console.log(event.target);
-  // console.log(event.target.id);
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
     if (event.target.id === 'left') {
       allProductImagesArray[productLeftImageArrayIndex].likes++;
@@ -93,33 +91,30 @@ var productClickHandler = function (event) {
     allProductImagesArray[productMiddleImageArrayIndex].appeared++;
     allProductImagesArray[productRightImageArrayIndex].appeared++;
 
-    console.log('before new random number ' + productLeftImageArrayIndex);
     productLeftImageArrayIndex = randomNumberLeft();
     productMiddleImageArrayIndex = randomNumberMiddle();
     productRightImageArrayIndex = randomNumberRight();
-    console.log('after new random number ' + productLeftImageArrayIndex);
 
-    // console.log(productLeftImage);
-    // console.log(allProductImagesArray[productLeftImageArrayIndex]);
-
-    // console.log('before ' + productLeftImage.src);
     productLeftImage.src = allProductImagesArray[productLeftImageArrayIndex].src;
-    // console.log('after ' + productLeftImage.src);
-
     productMiddleImage.src = allProductImagesArray[productMiddleImageArrayIndex].src;
     productRightImage.src = allProductImagesArray[productRightImageArrayIndex].src;
+
     productLeftImage.name = allProductImagesArray[productLeftImageArrayIndex].name;
     productMiddleImage.name = allProductImagesArray[productMiddleImageArrayIndex].name;
     productRightImage.name = allProductImagesArray[productRightImageArrayIndex].name;
 
-    productLeftDescription = productLeftImage.name;
-    productMiddleDescription = productMiddleImage.name;
-    productRightDescription = productRightImage.name;
+    //need to figure out how to get name to print to screen
+    //this doesn't work
+    //in theory it should be from when I assign the .name but it wasn't tied to the ID on the HTML page
+    // productLeftDescription = productLeftImage.name;
+    // productMiddleDescription = productMiddleImage.name;
+    // productRightDescription = productRightImage.name;
 
   }
 };
 
 //create the objects
+//if i can get the name then I can figure out why/which image doesn't work, i don't think i see sweep or usb
 new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
 new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
 new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
@@ -127,7 +122,7 @@ new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
 new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
 new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
 new ProductImageConstructor ('./images/chair.jpg', 'Chair');
-new ProductImageConstructor ('./images/cthuluhu.jpg', 'Monster Action Figure');
+new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
 new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
 new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
 new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
@@ -140,7 +135,7 @@ new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
 new ProductImageConstructor ('./images/usb.jpg', 'USB Tenticle');
 new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
 new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
-//console.log(allProductImagesArray);
+
 
 //calling the handling for click
 imageSection.addEventListener('click', productClickHandler);
