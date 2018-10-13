@@ -98,6 +98,30 @@ var productClickHandler = function (event) {
     productLeftDescription.textContent = allProductImagesArray[productLeftImageArrayIndex].name;
     productMiddleDescription.textContent = allProductImagesArray[productMiddleImageArrayIndex].name;
     productRightDescription.textContent = allProductImagesArray[productRightImageArrayIndex].name;
+
+    clickCounter++;
+    //console.log('click counter ' + clickCounter);
+    if (clickCounter === 25) {
+      imageSection.removeEventListener('click', productClickHandler);
+
+      var productListContainer = document.getElementById('listcontainer');
+      var h2El = document.createElement('h2');
+      h2El.textContent = ('Summary of Survery for YOUR selections');
+      productListContainer.appendChild(h2El);
+
+      var ulEl = document.createElement('ul');
+      for (var i = 0; i < allProductImagesArray.length; i++) {
+        var liEl  = document.createElement('li');
+        liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
+        ulEl.appendChild(liEl);
+
+        // allProductImagesArray.name;
+        // allProductImagesArray.likes;
+        // allProductImagesArray.likes/allProductImagesArray.appeared
+
+      }
+      productListContainer.appendChild(ulEl);
+    }
   }
 };
 
