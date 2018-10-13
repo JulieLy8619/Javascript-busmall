@@ -29,11 +29,6 @@ var clickCounter = 0;
 
 //=======Construction function======//
 //build the object: needs to contain the following info
-  //image source
-  //title for image
-  //likes count
-  //appearance count
-  //add object to all images array
 var ProductImageConstructor = function (source, name) {
   this.src = source;
   this.name = name;
@@ -50,17 +45,16 @@ var randomIndexNumber = function () {
   return number;
 };
 
-
+var randomColor = function () {
+  var r = Math.floor(Math.random() * 250);
+  var g = Math.floor(Math.random() * 250);
+  var b = Math.floor(Math.random() * 250);
+  console.log(r + ',' + g + ',' + b);
+  return (r + ',' + g + ',' + b);
+};
+randomColor();
 
 //handler function
-  //check they clicked on an image
-  //calls the random for all 3 images
-  //increase likes
-  //increase appeared
-  //increase total click counts
-  //update assigning the current image
-  //for lab 11, make a list render
-  //for lab 12,  add count to render chart and stop listener
 var productClickHandler = function (event) {
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
     if (event.target.id === 'left') {
@@ -115,10 +109,6 @@ var productClickHandler = function (event) {
         liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
         ulEl.appendChild(liEl);
 
-        // allProductImagesArray.name;
-        // allProductImagesArray.likes;
-        // allProductImagesArray.likes/allProductImagesArray.appeared
-
       }
       productListContainer.appendChild(ulEl);
     }
@@ -153,3 +143,18 @@ new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 //calling the handling for click
 imageSection.addEventListener('click', productClickHandler);
 
+//populating chart
+var ctx = document.getElementById('productChart').getContext('2d');
+
+var renderChart = function () {
+  var productNamesArray = [];
+  var productLikesArray = [];
+  var chartColors = [];
+
+  for (var j = 0; j <allProductImagesArray.length; j++) {
+    productNamesArray.push(allProductImagesArray[j].name);
+    productLikesArray.push(allProductImagesArray[j].likes);
+    color.push(randomColor());
+  }
+
+}
