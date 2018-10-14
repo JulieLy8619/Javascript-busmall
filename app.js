@@ -161,6 +161,7 @@ var renderChart = function () {
   
   for (var j = 0; j <allProductImagesArray.length; j++) {
     productNamesArray.push(allProductImagesArray[j].name);
+    //console.log(productNamesArray);
     productLikesArray.push(allProductImagesArray[j].likes);
     chartColors.push(randomColor());
     borderColorsArray.push(randomColor());
@@ -185,7 +186,12 @@ var renderChart = function () {
         ticks: {
           beginAtZero: true
         }
-      }]
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: false,
+        }
+      }],
     },
     animation: {
       duration: 800,
