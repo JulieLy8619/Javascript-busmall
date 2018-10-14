@@ -94,36 +94,14 @@ var productClickHandler = function (event) {
     productRightDescription.textContent = allProductImagesArray[productRightImageArrayIndex].name;
 
     clickCounter++;
-    //console.log('click counter ' + clickCounter);
     if (clickCounter === 25) {
-      //we;re supposed to make a chart now, not a list
       renderChart();
       imageSection.removeEventListener('click', productClickHandler);
-
-
-
-      // imageSection.removeEventListener('click', productClickHandler);
-
-      // var productListContainer = document.getElementById('listcontainer');
-      // var h2El = document.createElement('h2');
-      // h2El.textContent = ('Summary of Survery for YOUR selections');
-      // productListContainer.appendChild(h2El);
-
-      // var ulEl = document.createElement('ul');
-      // for (var i = 0; i < allProductImagesArray.length; i++) {
-      //   var liEl  = document.createElement('li');
-      //   liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
-      //   ulEl.appendChild(liEl);
-
-      // }
-      // productListContainer.appendChild(ulEl);
     }
   }
 };
 
 //create the objects
-//if i can get the name then I can figure out why/which image doesn't work, i don't think i see sweep or usb
-//it was .gif and .png, that is why those two didn't show
 new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
 new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
 new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
@@ -150,15 +128,12 @@ new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 imageSection.addEventListener('click', productClickHandler);
 
 //populating chart
-
-
-
 var renderChart = function () {
   var productNamesArray = [];
   var productLikesArray = []; //this is also known as the dataset
   var chartColors = [];
   var borderColorsArray = [];
-  
+
   for (var j = 0; j <allProductImagesArray.length; j++) {
     productNamesArray.push(allProductImagesArray[j].name);
     //console.log(productNamesArray);
