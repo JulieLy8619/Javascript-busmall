@@ -26,14 +26,10 @@ var allProductImagesArray = [];
 //total clicks, for when they pick 25 times it makes a graph
 var clickCounter = 0;
 
+var ctx = document.getElementById('productChart').getContext('2d');
 
 //=======Construction function======//
 //build the object: needs to contain the following info
-  //image source
-  //title for image
-  //likes count
-  //appearance count
-  //add object to all images array
 var ProductImageConstructor = function (source, name) {
   this.src = source;
   this.name = name;
@@ -50,17 +46,15 @@ var randomIndexNumber = function () {
   return number;
 };
 
-
+var randomColor = function () {
+  var r = Math.floor(Math.random() * 250);
+  var g = Math.floor(Math.random() * 250);
+  var b = Math.floor(Math.random() * 250);
+  return ('rgba(' + r + ',' + g + ',' + b + ')');
+};
+//console.log(randomColor());
 
 //handler function
-  //check they clicked on an image
-  //calls the random for all 3 images
-  //increase likes
-  //increase appeared
-  //increase total click counts
-  //update assigning the current image
-  //for lab 11, make a list render
-  //for lab 12,  add count to render chart and stop listener
 var productClickHandler = function (event) {
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
     if (event.target.id === 'left') {
@@ -102,25 +96,27 @@ var productClickHandler = function (event) {
     clickCounter++;
     //console.log('click counter ' + clickCounter);
     if (clickCounter === 25) {
+      //we;re supposed to make a chart now, not a list
+      renderChart();
       imageSection.removeEventListener('click', productClickHandler);
 
-      var productListContainer = document.getElementById('listcontainer');
-      var h2El = document.createElement('h2');
-      h2El.textContent = ('Summary of Survery for YOUR selections');
-      productListContainer.appendChild(h2El);
 
-      var ulEl = document.createElement('ul');
-      for (var i = 0; i < allProductImagesArray.length; i++) {
-        var liEl  = document.createElement('li');
-        liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
-        ulEl.appendChild(liEl);
 
-        // allProductImagesArray.name;
-        // allProductImagesArray.likes;
-        // allProductImagesArray.likes/allProductImagesArray.appeared
+      // imageSection.removeEventListener('click', productClickHandler);
 
-      }
-      productListContainer.appendChild(ulEl);
+      // var productListContainer = document.getElementById('listcontainer');
+      // var h2El = document.createElement('h2');
+      // h2El.textContent = ('Summary of Survery for YOUR selections');
+      // productListContainer.appendChild(h2El);
+
+      // var ulEl = document.createElement('ul');
+      // for (var i = 0; i < allProductImagesArray.length; i++) {
+      //   var liEl  = document.createElement('li');
+      //   liEl.textContent = allProductImagesArray[i].likes + ' votes for the ' +allProductImagesArray[i].name + ', which is ' + ((Math.round(allProductImagesArray[i].likes/allProductImagesArray[i].appeared)) + '% of times that an item was clicked when it was shown');
+      //   ulEl.appendChild(liEl);
+
+      // }
+      // productListContainer.appendChild(ulEl);
     }
   }
 };
@@ -152,4 +148,65 @@ new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 
 //calling the handling for click
 imageSection.addEventListener('click', productClickHandler);
+
+//populating chart
+
+
+
+var renderChart = function () {
+  var productNamesArray = [];
+  var productLikesArray = []; //this is also known as the dataset
+  var chartColors = [];
+  var borderColorsArray = [];
+  
+  for (var j = 0; j <allProductImagesArray.length; j++) {
+    productNamesArray.push(allProductImagesArray[j].name);
+    //console.log(productNamesArray);
+    productLikesArray.push(allProductImagesArray[j].likes);
+    chartColors.push(randomColor());
+    borderColorsArray.push(randomColor());
+  }
+
+  var chartData = {
+    labels: productNamesArray,
+    datasets: [
+      {
+        label: 'NUmber of Votes',
+        data: productLikesArray,
+        backgroundColor: chartColors,
+        borderColor: borderColorsArray,
+        borderWidth: 1
+      }
+    ]
+  };
+
+  var chartOptions = {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          autoSkip: false,
+        }
+      }],
+    },
+    animation: {
+      duration: 800,
+      easing: 'easeInCirc',
+    },
+    responsive: true,
+  };
+
+  var barChart = {
+    type: 'bar',
+    data: chartData,
+    options: chartOptions,
+  };
+  var productChart = new Chart(ctx,barChart);
+};
+
+
 
