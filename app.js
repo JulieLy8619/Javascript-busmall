@@ -1,8 +1,7 @@
-//building the outline//
-//add blurb about purpose of this code: 
-  //what information will we take in
-  //what do we do with the information
-  //why are we doing this, what is it for
+//what information will we take in
+//we take in no information
+//why are we doing this, what is it for
+//this creates a survey of 20+ products that a user pics and collection information about which was selected, if it was even displayed, and then produces a graph of the data.
 
 'use strict';
 
