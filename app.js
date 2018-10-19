@@ -1,6 +1,3 @@
-//what information will we take in
-//we take in no information
-//why are we doing this, what is it for
 //this creates a survey of 20+ products that a user pics and collection information about which was selected, if it was even displayed, and then produces a graph of the data.
 
 'use strict';
@@ -53,6 +50,39 @@ var randomColor = function () {
 };
 //console.log(randomColor());
 
+//check if has local data, if yes then grab data, if not the create
+if (!localStorage.getItem('productImages')) {
+  allProductImagesArray = [];
+  //create the objects
+  new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
+  new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
+  new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
+  new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
+  new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
+  new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
+  new ProductImageConstructor ('./images/chair.jpg', 'Chair');
+  new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
+  new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
+  new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
+  new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
+  new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
+  new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
+  new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
+  new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
+  new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+  new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
+  new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
+  new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
+  new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
+
+} else {
+  allProductImagesArray = JSON.parse(localStorage.getItem('voteCounter'));
+}
+
+if (localStorage.getItem('voteCounter')) {
+  clickCounter = JSON.parse(localStorage.getItem('voteCounter'));
+}
+
 //handler function
 var productClickHandler = function (event) {
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
@@ -93,38 +123,35 @@ var productClickHandler = function (event) {
     productRightDescription.textContent = allProductImagesArray[productRightImageArrayIndex].name;
 
     clickCounter++;
-    if (clickCounter === 25) {
+    localStorage.setItem('voteCounter',clickCounter);
+    if (clickCounter %25 === 0) {
       renderChart();
-      imageSection.removeEventListener('click', productClickHandler);
+      //removed the stop so they can keep vting if they want 
+      // imageSection.removeEventListener('click', productClickHandler);
     }
   }
 };
 
-//create the objects
-new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
-new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
-new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
-new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
-new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
-new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
-new ProductImageConstructor ('./images/chair.jpg', 'Chair');
-new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
-new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
-new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
-new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
-new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
-new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
-new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
-new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
-new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
-new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
-new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
-new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
-new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
-
-
 //calling the handling for click
 imageSection.addEventListener('click', productClickHandler);
+
+//handler for clear
+var handlerClearCounter = function (clearEvent) {
+  clickCounter = 0;
+  localStorage.setItem('voteCounter',clickCounter);
+  localStorage.clear();
+};
+
+//calling handler for clear
+imageSection.addEventListener('reset',handlerClearCounter);
+
+//handler for update
+var handlerUpdateTable = function(updateEvent) {
+
+}
+
+//calling handler for update
+imageSection.addEventListener('update',handlerUpdateTable);
 
 //populating chart
 var renderChart = function () {
