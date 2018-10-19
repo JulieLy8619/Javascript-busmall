@@ -137,21 +137,26 @@ imageSection.addEventListener('click', productClickHandler);
 
 //handler for clear
 var handlerClearCounter = function (clearEvent) {
+  console.log('in the handler clear counter');
+  // console.log(clearEvent);
   clickCounter = 0;
   localStorage.setItem('voteCounter',clickCounter);
-  localStorage.clear();
+  // localStorage.clear();
 };
 
 //calling handler for clear
-imageSection.addEventListener('reset',handlerClearCounter);
+//note to self for how to clear manually, in console do localstorage.clear() and then refresh the page
+var clearVoteCount = document.getElementById('clearVoteCount');
+// console.log(clearVoteCount);
+clearVoteCount.addEventListener('click',handlerClearCounter);
 
 //handler for update
-var handlerUpdateTable = function(updateEvent) {
+// var handlerUpdateTable = function(updateEvent) {
 
-}
+// }
 
 //calling handler for update
-imageSection.addEventListener('update',handlerUpdateTable);
+// imageSection.addEventListener('update',handlerUpdateTable);
 
 //populating chart
 var renderChart = function () {
