@@ -21,6 +21,7 @@ var imageSection = document.getElementById('clickme');
 var allProductImagesArray = [];
 //total clicks, for when they pick 25 times it makes a graph
 var clickCounter = 0;
+var voteMessagecontainer = document.getElementById('voteMessage');
 
 var ctx = document.getElementById('productChart').getContext('2d');
 
@@ -51,9 +52,8 @@ var randomColor = function () {
 //console.log(randomColor());
 
 //check if has local data, if yes then grab data, if not the create
-//if (parseInt(JSON.parse(localStorage.getItem('voteCounter'))) === 0) {
 if (!localStorage.getItem('voteCounter')) {
-  console.log('in not local storage');
+  //console.log('in not local storage');
   allProductImagesArray = [];
   //create the objects
   new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
@@ -83,36 +83,34 @@ if (!localStorage.getItem('voteCounter')) {
   }
 
 } else {
-  console.log('in else statement for localstorage');
-//create the objects
-new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
-new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
-new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
-new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
-new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
-new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
-new ProductImageConstructor ('./images/chair.jpg', 'Chair');
-new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
-new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
-new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
-new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
-new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
-new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
-new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
-new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
-new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
-new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
-new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
-new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
-new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
+  //console.log('in else statement for localstorage');
+  //had to create the opbjects again otherwise it didn't have things to point to when i tried to assign it information (like appeared)
+  new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
+  new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
+  new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
+  new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
+  new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
+  new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
+  new ProductImageConstructor ('./images/chair.jpg', 'Chair');
+  new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
+  new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
+  new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
+  new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
+  new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
+  new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
+  new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
+  new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
+  new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+  new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
+  new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
+  new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
+  new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
+
   for (var w = 0; w < allProductImagesArray.length; w++) {
-    
     allProductImagesArray[w].appeared = JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name));
-    console.log(allProductImagesArray[w].appeared);
+   //console.log(allProductImagesArray[w].appeared);
     allProductImagesArray[w].likes = JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name));
-    //do i need to reassign all my objects
   }
-  //console.log(allProductImagesArray);
 }
 
 if (localStorage.getItem('voteCounter')) {
@@ -166,11 +164,10 @@ var productClickHandler = function (event) {
 
     clickCounter++;
     localStorage.setItem('voteCounter',clickCounter);
-    //i think i might need to add a local storage for each item to keep track of it's likes/appeared for if i collect say 10 votes, close and come back, it loses the votes, i have the total votes in local storage though
+    voteMessagecontainer.textContent = ('Number of votes: ' + clickCounter);
+    //console.log(voteMessagecontainer);
     if (clickCounter %25 === 0) {
       renderChart();
-      //removed the stop so they can keep voting if they want 
-      // imageSection.removeEventListener('click', productClickHandler);
     }
   }
 };
@@ -180,8 +177,8 @@ imageSection.addEventListener('click', productClickHandler);
 
 //handler for clear
 var handlerClearCounter = function (clearEvent) {
-  console.log('in the handler clear counter');
-  // console.log(clearEvent);
+  //console.log('in the handler clear counter');
+  
   for (var k = 0; k < allProductImagesArray.length; k++) {
     allProductImagesArray[k].likes = 0;
     localStorage.setItem('LSLikes' + allProductImagesArray[k].name, 0);
@@ -190,13 +187,11 @@ var handlerClearCounter = function (clearEvent) {
 
   }
   clickCounter = 0;
+  voteMessagecontainer.textContent = ('Number of votes: ' + clickCounter);
   localStorage.removeItem('voteCounter');
-
-  // localStorage.clear();
 };
 
 //calling handler for clear
-//note to self for how to clear manually, in console do localstorage.clear() and then refresh the page
 var clearVoteCount = document.getElementById('clearVoteCountButton');
 // console.log(clearVoteCount);
 clearVoteCount.addEventListener('click',handlerClearCounter);
@@ -219,7 +214,6 @@ var renderChart = function () {
 
   for (var j = 0; j <allProductImagesArray.length; j++) {
     productNamesArray.push(allProductImagesArray[j].name);
-    //console.log(productNamesArray);
     productLikesArray.push(allProductImagesArray[j].likes);
     chartColors.push(randomColor());
     borderColorsArray.push(randomColor());
