@@ -53,7 +53,6 @@ var randomColor = function () {
 
 //check if has local data, if yes then grab data, if not the create
 if (!localStorage.getItem('voteCounter')) {
-  //console.log('in not local storage');
   allProductImagesArray = [];
   //create the objects
   new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
@@ -83,7 +82,6 @@ if (!localStorage.getItem('voteCounter')) {
   }
 
 } else {
-  //console.log('in else statement for localstorage');
   //had to create the opbjects again otherwise it didn't have things to point to when i tried to assign it information (like appeared)
   new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
   new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
@@ -108,7 +106,6 @@ if (!localStorage.getItem('voteCounter')) {
 
   for (var w = 0; w < allProductImagesArray.length; w++) {
     allProductImagesArray[w].appeared = JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name));
-   //console.log(allProductImagesArray[w].appeared);
     allProductImagesArray[w].likes = JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name));
   }
 }
@@ -165,7 +162,6 @@ var productClickHandler = function (event) {
     clickCounter++;
     localStorage.setItem('voteCounter',clickCounter);
     voteMessagecontainer.textContent = ('Number of votes: ' + clickCounter);
-    //console.log(voteMessagecontainer);
     if (clickCounter %25 === 0) {
       renderChart();
     }
@@ -177,8 +173,6 @@ imageSection.addEventListener('click', productClickHandler);
 
 //handler for clear
 var handlerClearCounter = function (clearEvent) {
-  //console.log('in the handler clear counter');
-  
   for (var k = 0; k < allProductImagesArray.length; k++) {
     allProductImagesArray[k].likes = 0;
     localStorage.setItem('LSLikes' + allProductImagesArray[k].name, 0);
@@ -193,7 +187,6 @@ var handlerClearCounter = function (clearEvent) {
 
 //calling handler for clear
 var clearVoteCount = document.getElementById('clearVoteCountButton');
-// console.log(clearVoteCount);
 clearVoteCount.addEventListener('click',handlerClearCounter);
 
 // handler for update
