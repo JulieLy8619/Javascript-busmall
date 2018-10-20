@@ -51,7 +51,8 @@ var randomColor = function () {
 //console.log(randomColor());
 
 //check if has local data, if yes then grab data, if not the create
-if (JSON.parse(localStorage.getItem('voteCounter')) === 0) {
+//if (parseInt(JSON.parse(localStorage.getItem('voteCounter'))) === 0) {
+if (!localStorage.getItem('voteCounter')) {
   console.log('in not local storage');
   allProductImagesArray = [];
   //create the objects
@@ -83,12 +84,35 @@ if (JSON.parse(localStorage.getItem('voteCounter')) === 0) {
 
 } else {
   console.log('in else statement for localstorage');
-  allProductImagesArray = JSON.parse(localStorage.getItem('voteCounter'));
+//create the objects
+new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
+new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
+new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
+new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
+new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
+new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
+new ProductImageConstructor ('./images/chair.jpg', 'Chair');
+new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
+new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
+new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
+new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
+new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
+new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
+new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
+new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
+new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
+new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
+new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
+new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
   for (var w = 0; w < allProductImagesArray.length; w++) {
-    localStorage.setItem('LSAppeared'+allProductImagesArray[w].name,JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name)));
-    localStorage.setItem('LSLikes'+allProductImagesArray[w].name,JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name)));
+    
+    allProductImagesArray[w].appeared = JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name));
+    console.log(allProductImagesArray[w].appeared);
+    allProductImagesArray[w].likes = JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name));
     //do i need to reassign all my objects
   }
+  //console.log(allProductImagesArray);
 }
 
 if (localStorage.getItem('voteCounter')) {
@@ -166,8 +190,8 @@ var handlerClearCounter = function (clearEvent) {
 
   }
   clickCounter = 0;
-  localStorage.setItem('voteCounter',clickCounter);
-  
+  localStorage.removeItem('voteCounter');
+
   // localStorage.clear();
 };
 
