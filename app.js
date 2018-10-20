@@ -124,9 +124,10 @@ var productClickHandler = function (event) {
 
     clickCounter++;
     localStorage.setItem('voteCounter',clickCounter);
+    //i think i might need to add a local storage for each item to keep track of it's likes/appeared for if i collect say 10 votes, close and come back, it loses the votes, i have the total votes in local storage though
     if (clickCounter %25 === 0) {
       renderChart();
-      //removed the stop so they can keep vting if they want 
+      //removed the stop so they can keep voting if they want 
       // imageSection.removeEventListener('click', productClickHandler);
     }
   }
@@ -139,24 +140,30 @@ imageSection.addEventListener('click', productClickHandler);
 var handlerClearCounter = function (clearEvent) {
   console.log('in the handler clear counter');
   // console.log(clearEvent);
+  for (var k = 0; k < allProductImagesArray.length; k++) {
+    allProductImagesArray[k].likes = 0;
+    allProductImagesArray[k].appeared = 0;
+  }
   clickCounter = 0;
   localStorage.setItem('voteCounter',clickCounter);
+  
   // localStorage.clear();
 };
 
 //calling handler for clear
 //note to self for how to clear manually, in console do localstorage.clear() and then refresh the page
-var clearVoteCount = document.getElementById('clearVoteCount');
+var clearVoteCount = document.getElementById('clearVoteCountButton');
 // console.log(clearVoteCount);
 clearVoteCount.addEventListener('click',handlerClearCounter);
 
-//handler for update
-// var handlerUpdateTable = function(updateEvent) {
+// handler for update
+var handlerUpdateTable = function(updateEvent) {
+  renderChart();
+};
 
-// }
-
-//calling handler for update
-// imageSection.addEventListener('update',handlerUpdateTable);
+// calling handler for update
+var updateChartOnSpot = document.getElementById('updateChartButton');
+updateChartOnSpot.addEventListener('click',handlerUpdateTable);
 
 //populating chart
 var renderChart = function () {
