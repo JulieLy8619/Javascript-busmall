@@ -1,6 +1,3 @@
-//what information will we take in
-//we take in no information
-//why are we doing this, what is it for
 //this creates a survey of 20+ products that a user pics and collection information about which was selected, if it was even displayed, and then produces a graph of the data.
 
 'use strict';
@@ -24,6 +21,7 @@ var imageSection = document.getElementById('clickme');
 var allProductImagesArray = [];
 //total clicks, for when they pick 25 times it makes a graph
 var clickCounter = 0;
+var voteMessagecontainer = document.getElementById('voteMessage');
 
 var ctx = document.getElementById('productChart').getContext('2d');
 
@@ -53,20 +51,89 @@ var randomColor = function () {
 };
 //console.log(randomColor());
 
+//check if has local data, if yes then grab data, if not the create
+if (!localStorage.getItem('voteCounter')) {
+  allProductImagesArray = [];
+  //create the objects
+  new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
+  new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
+  new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
+  new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
+  new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
+  new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
+  new ProductImageConstructor ('./images/chair.jpg', 'Chair');
+  new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
+  new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
+  new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
+  new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
+  new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
+  new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
+  new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
+  new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
+  new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+  new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
+  new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
+  new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
+  new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
+
+  for (var t = 0; t < allProductImagesArray.length; t++) {
+    localStorage.setItem('LSAppeared'+allProductImagesArray[t].name,0);
+    localStorage.setItem('LSLikes'+allProductImagesArray[t].name,0);
+  }
+
+} else {
+  //had to create the opbjects again otherwise it didn't have things to point to when i tried to assign it information (like appeared)
+  new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
+  new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
+  new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
+  new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
+  new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
+  new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
+  new ProductImageConstructor ('./images/chair.jpg', 'Chair');
+  new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
+  new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
+  new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
+  new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
+  new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
+  new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
+  new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
+  new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
+  new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
+  new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
+  new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
+  new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
+  new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
+
+  for (var w = 0; w < allProductImagesArray.length; w++) {
+    allProductImagesArray[w].appeared = JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name));
+    allProductImagesArray[w].likes = JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name));
+  }
+}
+
+if (localStorage.getItem('voteCounter')) {
+  clickCounter = JSON.parse(localStorage.getItem('voteCounter'));
+}
+
 //handler function
 var productClickHandler = function (event) {
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
     if (event.target.id === 'left') {
       allProductImagesArray[productLeftImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productLeftImageArrayIndex].name, allProductImagesArray[productLeftImageArrayIndex].likes);
     } else if (event.target.id === 'middle') {
       allProductImagesArray[productMiddleImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].likes);
     } else {
       allProductImagesArray[productRightImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productRightImageArrayIndex].name, allProductImagesArray[productRightImageArrayIndex].likes);
     }
 
     allProductImagesArray[productLeftImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productLeftImageArrayIndex].name, allProductImagesArray[productLeftImageArrayIndex].appeared);
     allProductImagesArray[productMiddleImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].appeared);
     allProductImagesArray[productRightImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].appeared);
 
     do {
       var maybeLeft = randomIndexNumber();
@@ -93,38 +160,43 @@ var productClickHandler = function (event) {
     productRightDescription.textContent = allProductImagesArray[productRightImageArrayIndex].name;
 
     clickCounter++;
-    if (clickCounter === 25) {
+    localStorage.setItem('voteCounter',clickCounter);
+    voteMessagecontainer.textContent = ('Number of votes: ' + clickCounter);
+    if (clickCounter %25 === 0) {
       renderChart();
-      imageSection.removeEventListener('click', productClickHandler);
     }
   }
 };
 
-//create the objects
-new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
-new ProductImageConstructor ('./images/banana.jpg', 'Banana Slicer');
-new ProductImageConstructor ('./images/bathroom.jpg', 'Fancy Toliet Holder');
-new ProductImageConstructor ('./images/boots.jpg', 'Toesless Rain Boots');
-new ProductImageConstructor ('./images/breakfast.jpg', 'Breakfast all in one');
-new ProductImageConstructor ('./images/bubblegum.jpg', 'Meatball Gum');
-new ProductImageConstructor ('./images/chair.jpg', 'Chair');
-new ProductImageConstructor ('./images/cthulhu.jpg', 'Monster Action Figure');
-new ProductImageConstructor ('./images/dog-duck.jpg', 'Duck Lips for Dogs');
-new ProductImageConstructor ('./images/dragon.jpg', 'Dragon Meat');
-new ProductImageConstructor ('./images/pen.jpg', 'Pen Utensils');
-new ProductImageConstructor ('./images/pet-sweep.jpg', 'Feet Mops');
-new ProductImageConstructor ('./images/scissors.jpg', 'Pizza Slice Scissors');
-new ProductImageConstructor ('./images/shark.jpg', 'Shark Sleeping Bag');
-new ProductImageConstructor ('./images/sweep.png', 'Baby Onsie Mop');
-new ProductImageConstructor ('./images/tauntaun.jpg', 'Tauntaun Sleeping Bag');
-new ProductImageConstructor ('./images/unicorn.jpg', 'Unicorn Meat');
-new ProductImageConstructor ('./images/usb.gif', 'USB Tenticle');
-new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
-new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
-
-
 //calling the handling for click
 imageSection.addEventListener('click', productClickHandler);
+
+//handler for clear
+var handlerClearCounter = function (clearEvent) {
+  for (var k = 0; k < allProductImagesArray.length; k++) {
+    allProductImagesArray[k].likes = 0;
+    localStorage.setItem('LSLikes' + allProductImagesArray[k].name, 0);
+    allProductImagesArray[k].appeared = 0;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[k].name, 0);
+
+  }
+  clickCounter = 0;
+  voteMessagecontainer.textContent = ('Number of votes: ' + clickCounter);
+  localStorage.removeItem('voteCounter');
+};
+
+//calling handler for clear
+var clearVoteCount = document.getElementById('clearVoteCountButton');
+clearVoteCount.addEventListener('click',handlerClearCounter);
+
+// handler for update
+var handlerUpdateTable = function(updateEvent) {
+  renderChart();
+};
+
+// calling handler for update
+var updateChartOnSpot = document.getElementById('updateChartButton');
+updateChartOnSpot.addEventListener('click',handlerUpdateTable);
 
 //populating chart
 var renderChart = function () {
@@ -135,7 +207,6 @@ var renderChart = function () {
 
   for (var j = 0; j <allProductImagesArray.length; j++) {
     productNamesArray.push(allProductImagesArray[j].name);
-    //console.log(productNamesArray);
     productLikesArray.push(allProductImagesArray[j].likes);
     chartColors.push(randomColor());
     borderColorsArray.push(randomColor());
@@ -145,7 +216,7 @@ var renderChart = function () {
     labels: productNamesArray,
     datasets: [
       {
-        label: 'NUmber of Votes',
+        label: 'Number of Votes',
         data: productLikesArray,
         backgroundColor: chartColors,
         borderColor: borderColorsArray,

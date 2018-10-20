@@ -1,24 +1,11 @@
-/*
-Ideas for styling: 
-  I want a gradiant background (body)
-    Blue to Orange
-  I want a border on the images
-*/
-
 html {
   width: 960px;
 }
 
 section {
   width: 960px;
-  height: 500px;
+  height: 650px;
 }
-
-/* main section ul li {
-  float: left;
-  list-style: none;
-  margin: 3px;
-} */
 
 div {
   float: left;
@@ -35,6 +22,19 @@ img {
 
 }
 
-body {
+/* body {
   background-image: linear-gradient(blue, green, yellow,green, blue,black,black);
+} */
+
+body {
+  background-color: rgb(131, 131, 243);
 }
+
+button {
+  background-color:rgb(214, 213, 213);
+}
+
+/*how do i hide the canvas space until the information is populate it*/
+/* canvas {
+  background-color: rgb(63, 61, 61);
+} */
