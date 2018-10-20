@@ -51,7 +51,8 @@ var randomColor = function () {
 //console.log(randomColor());
 
 //check if has local data, if yes then grab data, if not the create
-if (!localStorage.getItem('productImages')) {
+if (JSON.parse(localStorage.getItem('voteCounter')) === 0) {
+  console.log('in not local storage');
   allProductImagesArray = [];
   //create the objects
   new ProductImageConstructor ('./images/bag.jpg', 'Luggage');
@@ -75,8 +76,19 @@ if (!localStorage.getItem('productImages')) {
   new ProductImageConstructor ('./images/water-can.jpg', 'Self Watering Can');
   new ProductImageConstructor ('./images/wine-glass.jpg', 'Unique Wine Glass');
 
+  for (var t = 0; t < allProductImagesArray.length; t++) {
+    localStorage.setItem('LSAppeared'+allProductImagesArray[t].name,0);
+    localStorage.setItem('LSLikes'+allProductImagesArray[t].name,0);
+  }
+
 } else {
+  console.log('in else statement for localstorage');
   allProductImagesArray = JSON.parse(localStorage.getItem('voteCounter'));
+  for (var w = 0; w < allProductImagesArray.length; w++) {
+    localStorage.setItem('LSAppeared'+allProductImagesArray[w].name,JSON.parse(localStorage.getItem('LSAppeared'+allProductImagesArray[w].name)));
+    localStorage.setItem('LSLikes'+allProductImagesArray[w].name,JSON.parse(localStorage.getItem('LSLikes'+allProductImagesArray[w].name)));
+    //do i need to reassign all my objects
+  }
 }
 
 if (localStorage.getItem('voteCounter')) {
@@ -88,15 +100,21 @@ var productClickHandler = function (event) {
   if(event.target.id ==='left' || event.target.id === 'middle' || event.target.id === 'right') {
     if (event.target.id === 'left') {
       allProductImagesArray[productLeftImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productLeftImageArrayIndex].name, allProductImagesArray[productLeftImageArrayIndex].likes);
     } else if (event.target.id === 'middle') {
       allProductImagesArray[productMiddleImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].likes);
     } else {
       allProductImagesArray[productRightImageArrayIndex].likes++;
+      localStorage.setItem('LSLikes' + allProductImagesArray[productRightImageArrayIndex].name, allProductImagesArray[productRightImageArrayIndex].likes);
     }
 
     allProductImagesArray[productLeftImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productLeftImageArrayIndex].name, allProductImagesArray[productLeftImageArrayIndex].appeared);
     allProductImagesArray[productMiddleImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].appeared);
     allProductImagesArray[productRightImageArrayIndex].appeared++;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[productMiddleImageArrayIndex].name, allProductImagesArray[productMiddleImageArrayIndex].appeared);
 
     do {
       var maybeLeft = randomIndexNumber();
@@ -142,7 +160,10 @@ var handlerClearCounter = function (clearEvent) {
   // console.log(clearEvent);
   for (var k = 0; k < allProductImagesArray.length; k++) {
     allProductImagesArray[k].likes = 0;
+    localStorage.setItem('LSLikes' + allProductImagesArray[k].name, 0);
     allProductImagesArray[k].appeared = 0;
+    localStorage.setItem('LSAppeared' + allProductImagesArray[k].name, 0);
+
   }
   clickCounter = 0;
   localStorage.setItem('voteCounter',clickCounter);
@@ -184,7 +205,7 @@ var renderChart = function () {
     labels: productNamesArray,
     datasets: [
       {
-        label: 'NUmber of Votes',
+        label: 'Number of Votes',
         data: productLikesArray,
         backgroundColor: chartColors,
         borderColor: borderColorsArray,
